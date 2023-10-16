@@ -1,0 +1,19 @@
+{
+  "name": "fasternet_kmz_to_geocto_csv",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/index.ts"
+  },
+  "devDependencies": {
+    "@types/unzipper": "^0.10.7",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.3.2",
+    "unzipper": "^0.10.14"
+  }
+}
