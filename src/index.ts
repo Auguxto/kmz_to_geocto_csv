@@ -22,6 +22,8 @@ if (file_type === "application/vnd.google-earth.kmz") {
   const data = await parseKMZ.toKML(path);
 
   const placemarks = await parseKML.toPlacemarks(data);
+
+  console.log(placemarks);
 } else if (file_type === "application/vnd.google-earth.kml+xml") {
   const placemarks = await parseKML.toPlacemarks(await file.text());
 
