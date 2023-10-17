@@ -11,6 +11,7 @@ const path = args[2];
 const file = Bun.file(path);
 const file_exists = await file.exists();
 const file_type = file.type;
+const file_name = file.name?.split("/").pop()?.split(".")[0];
 
 if (!file_exists) {
   throw Error("Arquivo não encontrado.");
@@ -23,9 +24,28 @@ if (file_type === "application/vnd.google-earth.kmz") {
 
   const placemarks = await parseKML.toPlacemarks(data);
 
-  console.log(placemarks);
+  let csv = "";
+
+  for (let placemark of placemarks) {
+    try {
+      const coordinates = placemark.Point.coordinates.split(",");
+
+      csv += `${placemark.name},${placemark.name},${coordinates[1]},${coordinates[0]}\n`;
+    } catch {}
+  }
+
+  await Bun.write(`./out/${file_name}.csv`, csv);
 } else if (file_type === "application/vnd.google-earth.kml+xml") {
   const placemarks = await parseKML.toPlacemarks(await file.text());
 
-  console.log(placemarks);
+  let csv = "";
+
+  for (let placemark of placemarks) {
+    try {
+      const coordinates = placemark.Point.coordinates.split(",");
+
+      csv += `${placemark.name},${placemark.name},${coordinates[1]},${coordinates[0]}\n`;
+    } catch {}
+  }
+  await Bun.write(`./out/${file_name}.csv`, csv);
 }
