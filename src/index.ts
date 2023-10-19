@@ -36,7 +36,9 @@ if (file_type === "application/vnd.google-earth.kmz") {
 
   await Bun.write(`./out/${file_name}.csv`, csv);
 } else if (file_type === "application/vnd.google-earth.kml+xml") {
-  const placemarks = await parseKML.toPlacemarks(await file.text());
+  const reader = await file.stream().getReader().read();
+  const text = new TextDecoder().decode(reader.value)
+  const placemarks = await parseKML.toPlacemarks(text);
 
   let csv = "";
 
