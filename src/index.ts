@@ -7,11 +7,13 @@ if (args.length <= 2) {
   throw new Error("Use: bun dev path_to_file");
 }
 
-const path = args[2];
+const path = args.slice(2, args.length).join(" ");
 const file = Bun.file(path);
 const file_exists = await file.exists();
 const file_type = file.type;
 const file_name = file.name?.split("/").pop()?.split(".")[0];
+
+console.log(path)
 
 if (!file_exists) {
   throw Error("Arquivo não encontrado.");
